@@ -5,16 +5,19 @@ import {
   Input,
   Button,
 } from 'reactstrap';
+// import CardContainer from '../CardContainer';
+import Card from '../Card';
 
 export default function InputComponent() {
   const [userInput, setUserInput] = useState('');
   const [randomHouse, setRandomHouse] = useState(null);
+  const [studentArray, setStudentArray] = useState([]);
 
-  const randomHouseGenerator = () => {
+  const randomHouseGenerator = () => new Promise((resolve, reject) => {
     const houses = ['slytherin', 'gryffindor', 'hufflepuff', 'ravenclaw'];
     const chosenHouse = houses[Math.floor(Math.random() * houses.length)];
-    setRandomHouse(chosenHouse);
-  };
+    resolve(setRandomHouse(chosenHouse)).catch((error) => reject(error));
+  });
 
   const handleChange = (e) => {
     setUserInput(e.target.value);
@@ -22,6 +25,11 @@ export default function InputComponent() {
 
   const handleSubmit = (e) => {
     randomHouseGenerator();
+    const studentObject = {
+      name: userInput,
+      house: randomHouse,
+    };
+    setStudentArray(studentArray.concat(studentObject));
   };
 
   return (
@@ -32,7 +40,7 @@ export default function InputComponent() {
         </InputGroupAddon>
         <Input
           type='text'
-          name='searchInput'
+          name='userInput'
           value={userInput}
           onChange={handleChange}
           placeholder='Input your name!'
@@ -40,6 +48,11 @@ export default function InputComponent() {
           required
         />
       </InputGroup>
+      <div className='d-flex justify-content-center'>
+        {studentArray.map((item) => (
+          <Card inputName={item.name} randomHouse={item.house} />
+        ))}
+      </div>
     </div>
   );
 }
