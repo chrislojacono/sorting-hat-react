@@ -1,5 +1,6 @@
 import React from 'react';
 import JumbotronComponent from '../Jumbotron';
+import InputComponent from '../Input';
 
 class App extends React.Component {
   state = {
@@ -13,9 +14,11 @@ class App extends React.Component {
   }
 
   render() {
+    const { showInput } = this.state;
     return (
-      <div className="App d-flex justify-content-center">
+      <div className="App d-flex justify-content-center flex-column">
         <JumbotronComponent jumbotronButton={this.jumbotronButtonClick}/>
+       {showInput && <InputComponent/>}
       </div>
     );
   }
