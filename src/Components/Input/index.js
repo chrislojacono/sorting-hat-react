@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import {
-  InputGroup,
-  InputGroupAddon,
-  Input,
-  Button,
+  Alert,
 } from 'reactstrap';
 import Card from '../Card';
 
@@ -12,6 +9,7 @@ export default function InputComponent() {
   const [randomHouse, setRandomHouse] = useState(null);
   const [studentArray, setStudentArray] = useState([]);
   const [studentUID, setStudentUID] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const randomHouseGenerator = () => new Promise((resolve, reject) => {
     const houses = ['slytherin', 'gryffindor', 'hufflepuff', 'ravenclaw'];
@@ -26,40 +24,63 @@ export default function InputComponent() {
 
   const handleChange = (e) => {
     setUserInput(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
     randomHouseGenerator().then(() => {
       randomIdGenerator().then(() => {
-        const studentObject = {
-          name: userInput,
-          house: randomHouse,
-          id: studentUID,
-        };
-        setStudentArray(studentArray.concat(studentObject));
+        console.warn('success');
       });
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (userInput !== '') {
+      const studentObject = {
+        name: userInput,
+        house: randomHouse,
+        id: studentUID,
+      };
+      setUserInput('');
+      setStudentArray(studentArray.concat(studentObject));
+    } else {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 3000);
+    }
+  };
+
+  const expelStudent = (id) => {
+    const nonExpelledStudents = studentArray.filter((student) => student.id !== id);
+    setStudentArray(nonExpelledStudents);
+  };
+
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      handleSubmit();
+    }
+  };
+
   return (
     <div>
-      <InputGroup>
-        <InputGroupAddon addonType='append'>
-          <Button onClick={handleSubmit}>Sort!</Button>
-        </InputGroupAddon>
-        <Input
+      {errorMessage === true ? <Alert color="danger">
+        Please enter your name before sorting!
+      </Alert> : '' }
+      <form className="inputDiv">
+        <input
           type='text'
           name='userInput'
           value={userInput}
           onChange={handleChange}
           placeholder='Input your name!'
+          onKeyPress={handleKeypress}
           className='form-control form-control-lg m-1'
           required
         />
-      </InputGroup>
+        <button type="submit" className='btn btn-warning m-1' onClick={handleSubmit}>Sort!</button>
+      </form>
       <div className='d-flex justify-content-center'>
         {studentArray.map((item) => (
-          <Card key={item.id} inputName={item.name} randomHouse={item.house} />
+          <Card key={item.id} inputName={item.name} randomHouse={item.house} id={item.id} expelStudent={expelStudent}/>
         ))}
       </div>
     </div>
