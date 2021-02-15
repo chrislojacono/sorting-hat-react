@@ -26,19 +26,20 @@ export default function InputComponent() {
 
   const handleChange = (e) => {
     setUserInput(e.target.value);
+    randomHouseGenerator().then(() => {
+      randomIdGenerator().then(() => {
+        console.warn('success');
+      });
+    });
   };
 
   const handleSubmit = (e) => {
-    randomHouseGenerator().then(() => {
-      randomIdGenerator().then(() => {
-        const studentObject = {
-          name: userInput,
-          house: randomHouse,
-          id: studentUID,
-        };
-        setStudentArray(studentArray.concat(studentObject));
-      });
-    });
+    const studentObject = {
+      name: userInput,
+      house: randomHouse,
+      id: studentUID,
+    };
+    setStudentArray(studentArray.concat(studentObject));
   };
 
   return (
@@ -59,7 +60,7 @@ export default function InputComponent() {
       </InputGroup>
       <div className='d-flex justify-content-center'>
         {studentArray.map((item) => (
-          <Card key={item.id} inputName={item.name} randomHouse={item.house} />
+          <Card key={item.id} inputName={item.name} randomHouse={item.house} id={item.id}/>
         ))}
       </div>
     </div>
