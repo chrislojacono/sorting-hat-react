@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
   InputGroup,
-  InputGroupAddon,
-  Input,
-  Button,
+  Alert,
 } from 'reactstrap';
 import Card from '../Card';
 
@@ -12,6 +10,7 @@ export default function InputComponent() {
   const [randomHouse, setRandomHouse] = useState(null);
   const [studentArray, setStudentArray] = useState([]);
   const [studentUID, setStudentUID] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const randomHouseGenerator = () => new Promise((resolve, reject) => {
     const houses = ['slytherin', 'gryffindor', 'hufflepuff', 'ravenclaw'];
@@ -34,21 +33,28 @@ export default function InputComponent() {
   };
 
   const handleSubmit = (e) => {
-    const studentObject = {
-      name: userInput,
-      house: randomHouse,
-      id: studentUID,
-    };
-    setStudentArray(studentArray.concat(studentObject));
+    if (userInput !== '') {
+      const studentObject = {
+        name: userInput,
+        house: randomHouse,
+        id: studentUID,
+      };
+      setStudentArray(studentArray.concat(studentObject));
+    } else {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 3000);
+    }
   };
 
   return (
     <div>
-      <InputGroup>
-        <InputGroupAddon addonType='append'>
-          <Button onClick={handleSubmit}>Sort!</Button>
-        </InputGroupAddon>
-        <Input
+      {errorMessage === true ? <Alert color="danger">
+        Please enter your name before sorting!
+      </Alert> : '' }
+      <InputGroup className="inputDiv">
+        <input
           type='text'
           name='userInput'
           value={userInput}
@@ -57,6 +63,7 @@ export default function InputComponent() {
           className='form-control form-control-lg m-1'
           required
         />
+        <button className='btn btn-outline-success' onClick={handleSubmit}>Sort!</button>
       </InputGroup>
       <div className='d-flex justify-content-center'>
         {studentArray.map((item) => (
