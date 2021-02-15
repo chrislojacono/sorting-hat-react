@@ -39,6 +39,7 @@ export default function InputComponent() {
         house: randomHouse,
         id: studentUID,
       };
+      setUserInput('');
       setStudentArray(studentArray.concat(studentObject));
     } else {
       setErrorMessage(true);

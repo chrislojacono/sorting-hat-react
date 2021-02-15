@@ -26,7 +26,7 @@ export default function MediaCard({ inputName, randomHouse }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} >
+    <Card className={`${classes.root} m-3`}>
       <CardActionArea>
         {randomHouse === 'slytherin' && (
           <CardMedia
