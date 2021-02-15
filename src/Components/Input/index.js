@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  InputGroup,
   Alert,
 } from 'reactstrap';
 import Card from '../Card';
@@ -33,6 +32,7 @@ export default function InputComponent() {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     if (userInput !== '') {
       const studentObject = {
         name: userInput,
@@ -54,23 +54,30 @@ export default function InputComponent() {
     setStudentArray(nonExpelledStudents);
   };
 
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      handleSubmit();
+    }
+  };
+
   return (
     <div>
       {errorMessage === true ? <Alert color="danger">
         Please enter your name before sorting!
       </Alert> : '' }
-      <InputGroup className="inputDiv">
+      <form className="inputDiv">
         <input
           type='text'
           name='userInput'
           value={userInput}
           onChange={handleChange}
           placeholder='Input your name!'
+          onKeyPress={handleKeypress}
           className='form-control form-control-lg m-1'
           required
         />
-        <button className='btn btn-outline-success' onClick={handleSubmit}>Sort!</button>
-      </InputGroup>
+        <button type="submit" className='btn btn-outline-success' onClick={handleSubmit}>Sort!</button>
+      </form>
       <div className='d-flex justify-content-center'>
         {studentArray.map((item) => (
           <Card key={item.id} inputName={item.name} randomHouse={item.house} id={item.id} expelStudent={expelStudent}/>
