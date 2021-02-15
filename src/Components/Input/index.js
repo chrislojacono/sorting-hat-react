@@ -49,6 +49,11 @@ export default function InputComponent() {
     }
   };
 
+  const expelStudent = (id) => {
+    const nonExpelledStudents = studentArray.filter((student) => student.id !== id);
+    setStudentArray(nonExpelledStudents);
+  };
+
   return (
     <div>
       {errorMessage === true ? <Alert color="danger">
@@ -68,7 +73,7 @@ export default function InputComponent() {
       </InputGroup>
       <div className='d-flex justify-content-center'>
         {studentArray.map((item) => (
-          <Card key={item.id} inputName={item.name} randomHouse={item.house} id={item.id}/>
+          <Card key={item.id} inputName={item.name} randomHouse={item.house} id={item.id} expelStudent={expelStudent}/>
         ))}
       </div>
     </div>

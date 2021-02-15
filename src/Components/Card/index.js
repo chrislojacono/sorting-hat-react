@@ -22,7 +22,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard({ inputName, randomHouse }) {
+export default function MediaCard({
+  inputName,
+  randomHouse,
+  expelStudent,
+  id,
+}) {
   const classes = useStyles();
 
   return (
@@ -63,7 +68,9 @@ export default function MediaCard({ inputName, randomHouse }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size='small' color='primary'>
+        <Button size='small' color='primary' onClick={() => {
+          expelStudent(id);
+        }}>
           Expel
         </Button>
       </CardActions>
