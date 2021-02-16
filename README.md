@@ -11,6 +11,8 @@ We had done this exercise in the front-end portion of NSS, using a single page J
 ## Build Status
 [![Netlify Status](https://api.netlify.com/api/v1/badges/1d44032c-4d8a-4b0c-bb7d-6bb21e523ba1/deploy-status)](https://app.netlify.com/sites/sortinghatreact/deploys)
 
+[Deployed Site](https://sortinghatreact.netlify.app/)
+
 ## Technologies Used
 React.js
 Material UI
