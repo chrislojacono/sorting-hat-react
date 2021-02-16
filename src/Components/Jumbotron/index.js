@@ -3,7 +3,7 @@ import { Jumbotron, Button } from 'reactstrap';
 
 export default function JumbotronComponent({ jumbotronButton }) {
   return (
-    <div>
+    <div className="jumbotronOpaque">
       <Jumbotron>
         <h1 className='display-3'>Welcome to Hogwarts!</h1>
         <p className='lead'>

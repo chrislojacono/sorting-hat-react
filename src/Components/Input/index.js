@@ -76,7 +76,7 @@ export default function InputComponent() {
           className='form-control form-control-lg m-1'
           required
         />
-        <button type="submit" className='btn btn-warning m-1' onClick={handleSubmit}>Sort!</button>
+        <button type="submit" className='btn btn-warning m-1 ml-2' onClick={handleSubmit}>Sort!</button>
       </form>
       <div className='d-flex justify-content-center'>
         {studentArray.map((item) => (
